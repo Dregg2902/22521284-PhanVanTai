@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.34607.79
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maytinh", "baitaplithuyet\Maytinh.csproj", "{959C71DE-D7BB-4966-8DBB-044C3A892E6F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "maytinh1", "maytinh1", "{21A02D1C-C093-4ECD-94B9-6CAAC568DFCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{959C71DE-D7BB-4966-8DBB-044C3A892E6F} = {21A02D1C-C093-4ECD-94B9-6CAAC568DFCF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3F83F2C-B5E5-41C5-9BC8-89CC6EBE6CDD}
