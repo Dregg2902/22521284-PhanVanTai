@@ -47,7 +47,7 @@ namespace openfilepicture
             button1.Name = "button1";
             button1.Size = new Size(122, 68);
             button1.TabIndex = 0;
-            button1.Text = "xem ảnh";
+            button1.Text = "chọn ảnh";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
