@@ -1,6 +1,6 @@
 ﻿namespace ServerChatForm
 {
-    partial class sev
+    partial class Form2
     {
         /// <summary>
         /// Required designer variable.
@@ -76,16 +76,16 @@
             this.textBox2.Location = new System.Drawing.Point(0, 392);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(364, 72);
+            this.textBox2.Size = new System.Drawing.Size(412, 72);
             this.textBox2.TabIndex = 4;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(370, 392);
+            this.button2.Location = new System.Drawing.Point(418, 392);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(188, 72);
+            this.button2.Size = new System.Drawing.Size(140, 72);
             this.button2.TabIndex = 5;
-            this.button2.Text = "button2";
+            this.button2.Text = "send";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 

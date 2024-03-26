@@ -53,6 +53,7 @@ namespace LMCB_TestForm
             this.richTextBox1.Size = new System.Drawing.Size(776, 269);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
+          
             // 
             // sendMsgTextBox
             // 
@@ -109,7 +110,7 @@ namespace LMCB_TestForm
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(120, 36);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 17);
+            this.label1.Size = new System.Drawing.Size(0, 16);
             this.label1.TabIndex = 7;
             // 
             // textBox2
@@ -125,7 +126,7 @@ namespace LMCB_TestForm
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(9, 38);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(105, 17);
+            this.label2.Size = new System.Drawing.Size(100, 16);
             this.label2.TabIndex = 9;
             this.label2.Text = "Server address";
             // 
@@ -144,7 +145,7 @@ namespace LMCB_TestForm
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(243, 40);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 17);
+            this.label3.Size = new System.Drawing.Size(70, 16);
             this.label3.TabIndex = 12;
             this.label3.Text = "Username";
             // 
@@ -156,7 +157,7 @@ namespace LMCB_TestForm
             this.textBox1.TabIndex = 13;
             this.textBox1.Text = "apple";
             // 
-            // Form1
+            // Cli
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -172,7 +173,7 @@ namespace LMCB_TestForm
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "Cli";
             this.Text = "ClientChatForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_Close);
             this.menuStrip1.ResumeLayout(false);
