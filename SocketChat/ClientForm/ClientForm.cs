@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -16,7 +11,7 @@ namespace ClientForm
     {
         private Socket clientSocket = null;
         private int _buff_size = 2048;
-       
+
         public ClientForm()
         {
             InitializeComponent();
@@ -31,7 +26,8 @@ namespace ClientForm
                 int serverPort = int.Parse(textBox2.Text);
                 IPEndPoint serverEp = new IPEndPoint(serverIp, serverPort);
                 clientSocket.Connect(serverEp);
-                richTextBox1.Text += "Connected to " + serverEp.ToString();
+                richTextBox1.Text += "Connected to " + serverEp.ToString() + "\n";
+                Task.Factory.StartNew(ReceiveData);
             }
             catch (Exception ex)
             {
@@ -43,14 +39,16 @@ namespace ClientForm
         {
             try
             {
-                clientSocket.Send(Encoding.UTF8.GetBytes(richTextBox2.Text));
-                richTextBox2.Text = "";
+                string message = textBox1.Text; // Sử dụng richTextBox2 để nhập tin nhắn
+                clientSocket.Send(Encoding.UTF8.GetBytes(message));
+                textBox1.Text = ""; // Xóa nội dung sau khi gửi tin nhắn
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void ReceiveData()
         {
             try
@@ -77,7 +75,7 @@ namespace ClientForm
                 {
                     clientSocket.Shutdown(SocketShutdown.Both);
                     clientSocket.Close();
-                    richTextBox1.Text += "Disconnected from server.";
+                    richTextBox1.Text += "Disconnected from server." + "\n";
                 }
             }
             catch (Exception ex)
@@ -85,6 +83,12 @@ namespace ClientForm
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void ClientForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Disconnect();
+        }
+
         private void UpdateChatHistoryThreadSafe(string text)
         {
             if (richTextBox1.InvokeRequired)
@@ -97,7 +101,14 @@ namespace ClientForm
                 richTextBox1.Text += text + "\n";
             }
         }
+
         private delegate void SafeCallDelegate(string text);
+        private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Disconnect();
+        }
+
+       
 
     }
 }

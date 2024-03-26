@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -22,6 +18,8 @@ namespace SocketChat
         private byte[] _buffer = new byte[_buff_size];
         private Thread serverThread = null;
         private delegate void SafeCallDelegate(string text);
+        private List<Socket> connectedClients = new List<Socket>();
+
         public Form1()
         {
             InitializeComponent();
@@ -38,19 +36,21 @@ namespace SocketChat
                     button2.Text = "Listen";
                     serverThread = null;
                     listener.Close();
+                    stopListening();
                 }
                 else
                 {
                     serverThread = new Thread(this.listen);
                     serverThread.Start();
-                   
+                    button2.Text = "Stop";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void listen()
         {
             try
@@ -76,6 +76,7 @@ namespace SocketChat
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void HandleClient(Socket clientSocket)
         {
             try
@@ -86,6 +87,15 @@ namespace SocketChat
                     int readBytes = clientSocket.Receive(buffer);
                     string message = Encoding.UTF8.GetString(buffer, 0, readBytes);
                     UpdateChatHistoryThreadSafe(message);
+
+                    // Gửi lại tin nhắn đã nhận được cho tất cả client khác
+                    foreach (Socket connectedClient in connectedClients)
+                    {
+                        if (connectedClient != clientSocket && connectedClient.Connected)
+                        {
+                            connectedClient.Send(Encoding.UTF8.GetBytes(message));
+                        }
+                    }
                 }
                 clientSocket.Close();
             }
@@ -94,35 +104,27 @@ namespace SocketChat
                 MessageBox.Show(ex.Message);
             }
         }
+
         private void stopListening()
         {
             try
             {
                 started = false;
                 listener.Close();
-                UpdateChatHistoryThreadSafe("Server stopped listening.");
+                UpdateChatHistoryThreadSafe("Server stopped listening." + "\n");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-        void readFromSocket(Socket clientSocket)
-        {
-            while (started && clientSocket != null)
-            {
-                int readbytes = clientSocket.Receive(_buffer);
-                string s = Encoding.UTF8.GetString(_buffer);
-                UpdateChatHistoryThreadSafe(s + "\n");
-            }
-        }
+
         private void UpdateChatHistoryThreadSafe(string text)
         {
             if (richTextBox1.InvokeRequired)
             {
                 var d = new SafeCallDelegate(UpdateChatHistoryThreadSafe);
                 richTextBox1.Invoke(d, new object[] { text });
-
             }
             else
             {
@@ -130,5 +132,41 @@ namespace SocketChat
             }
         }
 
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            // Không cần thêm mã vào đây, vì chúng ta không cần xử lý sự kiện này
+        }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            StopServer();
+        }
+
+        private void StopServer()
+        {
+            try
+            {
+                started = false;
+                listener.Close();
+                UpdateChatHistoryThreadSafe("Server stopped listening." + "\n");
+
+                // Đóng tất cả các kết nối của client
+                foreach (Socket connectedClient in connectedClients)
+                {
+                    if (connectedClient != null && connectedClient.Connected)
+                    {
+                        connectedClient.Shutdown(SocketShutdown.Both);
+                        connectedClient.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
     }
 }
+
+
+
